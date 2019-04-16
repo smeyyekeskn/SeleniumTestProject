@@ -1,8 +1,10 @@
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace Tests
 {
@@ -25,6 +27,7 @@ namespace Tests
         [TearDown]
         public void Close()
         {
+            Thread.Sleep(3000);
             driver.Quit();
         }
 
@@ -35,6 +38,20 @@ namespace Tests
             var title = driver.Title;
 
             Assert.IsTrue(title == "n11.com - Alýþveriþin Uðurlu Adresi");
+        }
+
+        [Test]
+        public void LoginTest()
+        {
+            driver.Navigate().GoToUrl("http://www.n11.com/giris-yap");
+            Assert.IsTrue(driver.Title == "Giriþ Yap - n11.com");
+
+            driver.FindElementById("email").SendKeys("******@*****.com");
+            driver.FindElementById("password").SendKeys("***********");
+            driver.FindElementById("loginButton").Click();
+
+            var text = driver.FindElementByCssSelector(".menuLink.user").Text;
+            Assert.IsTrue(text=="*********");
         }
     }
 }
