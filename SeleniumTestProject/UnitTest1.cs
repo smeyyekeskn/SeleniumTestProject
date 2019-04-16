@@ -29,6 +29,7 @@ namespace Tests
         }
 
         [Test]
+
         public void TestSiteTitle()
         {
             var title = driver.Title;
